@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: WPsite Limit Posts
+Plugin Name: WPsite Limit Posts Beta
 plugin URI: wpsite-limit-posts
 Description: Limit the number of posts are certian type of user can create.
 version: 1.0
