@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: WPsite Limit Posts Beta
+Plugin Name: WPsite Limit Posts
 plugin URI: wpsite-limit-posts
-Description: Limit the number of posts are certian type of user can create.
+Description: Limit the number of posts that your editors and authors can write.
 version: 1.0
 Author: Kyle Benk
 Author URI: http://kylebenkapps.com
@@ -135,12 +135,8 @@ class WPsiteLimitPosts {
 		
 		// Editor
 		
-		if (array_key_exists('editor', $caps)) {
-			/*
-error_log('Editor');
-			error_log('Editor can post: ' . (int) $settings['roles']['Editor']);
-			error_log('current posts: ' . count_user_posts($data['post_author']));
-*/
+		if (array_key_exists('editor', $caps) && !current_user_can('manage_options') && (int) $settings['roles']['Editor'] > 0) {
+		
 			if ($data['post_status'] == 'publish' && (int) $settings['roles']['Editor'] <= (int) count_user_posts($data['post_author']) && get_post_status($postarr['ID']) != 'publish') {
 			
 				$data['post_status'] = 'pending';
@@ -149,22 +145,20 @@ error_log('Editor');
 		
 		// Author
 		
-		else if (array_key_exists('author', $caps)) {
-			/*
-error_log('Author');
-			error_log('Authors can post: ' . (int) $settings['roles']['Author']);
-			error_log('current posts: ' . count_user_posts($data['post_author']));
-*/
+		else if (array_key_exists('author', $caps) && !current_user_can('manage_options')) {
+			
 			if ($data['post_status'] == 'publish' && (int) $settings['roles']['Author'] <= (int) count_user_posts($data['post_author']) && get_post_status($postarr['ID']) != 'publish') {
 				$data['post_status'] = 'pending';
 			}
 		}
 		
-		// Contributor
+		/*
+// Contributor
 		
 		else if (array_key_exists('contributor', $caps)) {
 			error_log('Contributor');
 		}
+*/
 		
 		return $data;
 	}
@@ -266,7 +260,7 @@ error_log('Author');
 					
 					foreach ($roles as $role) { 
 						
-						if (!is_multisite() && $role != 'Administrator' && $role != 'Subscriber') { ?>
+						if (!is_multisite() && $role != 'Administrator' && $role != 'Subscriber' && $role != 'Contributor') { ?>
 							<tr>
 								<th class="wpsite_limit_posts_admin_table_th">
 									<label><?php _e($role, self::$text_domain); ?></label>
@@ -275,7 +269,7 @@ error_log('Author');
 									</td>
 								</th>
 							</tr>
-						<?php }else if (is_multisite() && $role != 'Super Admin' && $role != 'Subscriber') { ?>
+						<?php }else if (is_multisite() && $role != 'Super Admin' && $role != 'Subscriber' && $role != 'Contributor') { ?>
 							<tr>
 								<th class="wpsite_limit_posts_admin_table_th">
 									<label><?php _e($role, self::$text_domain); ?></label>
