@@ -275,77 +275,91 @@ class WPsiteLimitPosts {
 		
 		?>
 		
-		<h1><?php _e('WPsite Limit Posts', self::$text_domain); ?></h1>
-		
-		<form method="post">
+		<div class="wrap wpsite_admin_panel">
+			<div class="wpsite_admin_panel_banner">
+				<h1><?php _e('WPsite Limit Posts', self::$text_domain); ?></h1>
+			</div>
 			
-			<table>
-				<tbody>
-				
-					<!-- Checkbox for all users or individual -->
+			<div id="wpsite_admin_panel_settings" class="wpsite_admin_panel_content">
+		
+				<form method="post">
 					
-					<tr>
-						<th class="wpsite_limit_posts_admin_table_th">
-							<label><?php _e('Limit All Users', self::$text_domain); ?></label>
-							<td class="wpsite_limit_posts_admin_table_td">
-								<input id="wpsite_limit_posts_settings_all_users" name="wpsite_limit_posts_settings_all_users" type="checkbox" <?php echo isset($settings['all']) && $settings['all'] ? 'checked="checked"' : ''; ?>>
-							</td>
-						</th>
-					</tr>
-					
-					<!-- All users -->
-				
-					<?php
-					$limited_roles = '';
-					
-					foreach ($wp_roles->roles as $role) {
+					<table>
+						<tbody>
 						
-						$role_name = strtolower($role['name']);
-					
-						if (isset($role['capabilities']) && isset($role['capabilities']['publish_posts']) && !isset($role['capabilities']['moderate_comments'])) {
-							?>
-							<tr class="wpsite_limit_posts_roles">
+							<!-- Checkbox for all users or individual -->
+							
+							<tr>
 								<th class="wpsite_limit_posts_admin_table_th">
-									<label><?php _e($role['name'], self::$text_domain); ?></label>
+									<label><?php _e('Limit All Users', self::$text_domain); ?></label>
 									<td class="wpsite_limit_posts_admin_table_td">
-										<input id="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" name="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" type="text" size="10" value="<?php echo isset($settings['all_limit'][$role_name]) ? esc_attr($settings['all_limit'][$role_name]) : ''; ?>">
+										<input id="wpsite_limit_posts_settings_all_users" name="wpsite_limit_posts_settings_all_users" type="checkbox" <?php echo isset($settings['all']) && $settings['all'] ? 'checked="checked"' : ''; ?>>
 									</td>
 								</th>
 							</tr>
+							
+							<!-- All users -->
+						
 							<?php
-							$limited_roles .= $role['name'] . ',';
-						}
-					}?>
+							$limited_roles = '';
+							
+							foreach ($wp_roles->roles as $role) {
+								
+								$role_name = strtolower($role['name']);
+							
+								if (isset($role['capabilities']) && isset($role['capabilities']['publish_posts']) && !isset($role['capabilities']['moderate_comments'])) {
+									?>
+									<tr class="wpsite_limit_posts_roles">
+										<th class="wpsite_limit_posts_admin_table_th">
+											<label><?php _e($role['name'], self::$text_domain); ?></label>
+											<td class="wpsite_limit_posts_admin_table_td">
+												<input id="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" name="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" type="text" size="10" value="<?php echo isset($settings['all_limit'][$role_name]) ? esc_attr($settings['all_limit'][$role_name]) : ''; ?>">
+											</td>
+										</th>
+									</tr>
+									<?php
+									$limited_roles .= $role['name'] . ',';
+								}
+							}?>
+							
+							<!-- List all individual users -->
+							
+							<?php 
+							
+							$users = get_users(array(
+								'role'  => trim($limited_roles, ',')
+							));
+							
+							foreach ($users as $user) {
+								?><tr class="wpsite_limit_posts_users">
+									<th class="wpsite_limit_posts_admin_table_th">
+										<label><?php _e($user->user_nicename, self::$text_domain); ?></label>
+										<td class="wpsite_limit_posts_admin_table_td">
+											<input id="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" name="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" type="text" size="10" value="<?php echo isset($settings['user_limit'][$user->ID]) ? esc_attr($settings['user_limit'][$user->ID]) : ''; ?>">
+										</td>
+									</th>
+								</tr><?php
+							}
+							
+							?>
+						
+						</tbody>
+					</table>
 					
-					<!-- List all individual users -->
-					
-					<?php 
-					
-					$users = get_users(array(
-						'role'  => trim($limited_roles, ',')
-					));
-					
-					foreach ($users as $user) {
-						?><tr class="wpsite_limit_posts_users">
-							<th class="wpsite_limit_posts_admin_table_th">
-								<label><?php _e($user->user_nicename, self::$text_domain); ?></label>
-								<td class="wpsite_limit_posts_admin_table_td">
-									<input id="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" name="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" type="text" size="10" value="<?php echo isset($settings['user_limit'][$user->ID]) ? esc_attr($settings['user_limit'][$user->ID]) : ''; ?>">
-								</td>
-							</th>
-						</tr><?php
-					}
-					
-					?>
+				<?php wp_nonce_field('wpsite_limit_posts_admin_settings'); ?>
 				
-				</tbody>
-			</table>
+				<?php submit_button(); ?>
+				
+				</form>
+
+			</div>
 			
-		<?php wp_nonce_field('wpsite_limit_posts_admin_settings'); ?>
+			<div id="wpsite_admin_panel_sidebar" class="wpsite_admin_panel_content">
+				<img src="http://www.wpsite.net/wp-content/uploads/2011/10/logo-only-100h.png">
+			</div>
+		</div>
 		
-		<?php submit_button(); ?>
 		
-		</form>
 		<?php
 	}
 }
