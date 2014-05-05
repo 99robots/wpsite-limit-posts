@@ -22,7 +22,12 @@
 
 .wpsite_admin_panel_banner {
 	width: 100%;
-	height: 50px;
+	height: inherit;
+	margin: auto;
+}
+
+.wpsite_admin_panel_banner_h1 {
+	width: intrinsic;
 	margin: auto;
 }
 
@@ -33,10 +38,16 @@
 #wpsite_admin_panel_settings {
 	width: 70%;
 	float: left;
+	border-right: 1px solid rgba(0,0,0,0.5);
 }
 
 #wpsite_admin_panel_sidebar {
 	width: 30%;
 	height: 100%;
 	float: right;
+}
+
+.wpsite_admin_panel_sidebar_img {
+	width: intrinsic;
+	margin: auto;
 }

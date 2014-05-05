@@ -250,7 +250,7 @@ class WPsiteLimitPosts {
 				
 			$settings['all'] = isset($_POST['wpsite_limit_posts_settings_all_users']) && $_POST['wpsite_limit_posts_settings_all_users'] ? true : false;
 				
-			$limited_roles = '';
+			$limited_roles = array();
 			
 			foreach ($wp_roles->roles as $role) {
 			
@@ -258,13 +258,18 @@ class WPsiteLimitPosts {
 				
 				if (isset($role['capabilities']) && isset($role['capabilities']['publish_posts']) && !isset($role['capabilities']['moderate_comments'])) { 
 					$settings['all_limit'][$role_name] = isset($_POST['wpsite_limit_posts_settings_post_num_' . $role_name]) ? (int) stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_post_num_' . $role_name])) : null;
-					$limited_roles .= $role_name . ',';
+					$limited_roles[] = $role['name'];
 				}
 			}
 			
-			$users = get_users(array(
-				'role'  => trim($limited_roles, ',')
-			));
+			$all_users = get_users();
+			$users = array();
+			
+			foreach ($all_users as $user) {
+				if (user_can($user->ID, 'publish_posts') && !user_can($user->ID, 'moderate_comments')) {
+					$users[] = $user;
+				}
+			}
 			
 			foreach ($users as $user) {
 				$settings['user_limit'][$user->ID] = isset($_POST['wpsite_limit_posts_settings_user_' . $user->ID]) ? (int) stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_user_' . $user->ID])) : null;
@@ -301,7 +306,7 @@ class WPsiteLimitPosts {
 							<!-- All users -->
 						
 							<?php
-							$limited_roles = '';
+							$limited_roles = array();
 							
 							foreach ($wp_roles->roles as $role) {
 								
@@ -318,7 +323,7 @@ class WPsiteLimitPosts {
 										</th>
 									</tr>
 									<?php
-									$limited_roles .= $role['name'] . ',';
+									$limited_roles[] = $role['name'];
 								}
 							}?>
 							
@@ -326,9 +331,14 @@ class WPsiteLimitPosts {
 							
 							<?php 
 							
-							$users = get_users(array(
-								'role'  => trim($limited_roles, ',')
-							));
+							$all_users = get_users();
+							$users = array();
+							
+							foreach ($all_users as $user) {
+								if (user_can($user->ID, 'publish_posts') && !user_can($user->ID, 'moderate_comments')) {
+									$users[] = $user;
+								}
+							}
 							
 							foreach ($users as $user) {
 								?><tr class="wpsite_limit_posts_users">
@@ -355,7 +365,9 @@ class WPsiteLimitPosts {
 			</div>
 			
 			<div id="wpsite_admin_panel_sidebar" class="wpsite_admin_panel_content">
-				<img src="http://www.wpsite.net/wp-content/uploads/2011/10/logo-only-100h.png">
+				<div class="wpsite_admin_panel_sidebar_img">
+					<img src="http://www.wpsite.net/wp-content/uploads/2011/10/logo-only-100h.png">
+				</div>
 			</div>
 		</div>
 		
