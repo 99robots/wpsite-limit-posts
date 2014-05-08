@@ -366,7 +366,7 @@ class WPsiteLimitPosts {
 			
 			<div id="wpsite_admin_panel_sidebar" class="wpsite_admin_panel_content">
 				<div class="wpsite_admin_panel_sidebar_img">
-					<img src="http://www.wpsite.net/wp-content/uploads/2011/10/logo-only-100h.png">
+					<a target="_blank" href="http://wpsite.net"><img src="http://www.wpsite.net/wp-content/uploads/2011/10/logo-only-100h.png"></a>
 				</div>
 			</div>
 		</div>
