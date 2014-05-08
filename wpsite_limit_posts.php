@@ -194,7 +194,7 @@ class WPsiteLimitPosts {
 	    /* Cast the first sub menu to the tools menu */
 	    
 	    $settings_page_load = add_submenu_page(
-	    	'tools.php', 													// parent slug
+	    	'options-general.php', 													// parent slug
 	    	__('WPsite Limit Posts', self::$text_domain), 						// Page title
 	    	__('WPsite Limit Posts', self::$text_domain), 						// Menu name
 	    	'manage_options', 											// Capabilities
