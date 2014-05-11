@@ -1,2 +1,2 @@
-wpsite-limit-posts
+# WPsite Limit Posts
 ==================
