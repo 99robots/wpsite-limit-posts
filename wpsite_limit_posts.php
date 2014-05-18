@@ -110,7 +110,7 @@ class WPsiteLimitPosts {
 	 * @since 1.0.0
 	 */
 	static function wpsite_limit_posts_settings_link($links) { 
-		$settings_link = '<a href="tools.php?page=' . self::$settings_page . '">Settings</a>'; 
+		$settings_link = '<a href="options-general.php?page=' . self::$settings_page . '">Settings</a>'; 
 		array_unshift($links, $settings_link); 
 		return $links; 
 	}
