@@ -35,9 +35,11 @@
 							
 							<tr>
 								<th class="wpsite_limit_posts_admin_table_th">
-									<label><?php _e('Limit All Users', self::$text_domain); ?></label>
+									<label><?php _e('Limit by', self::$text_domain); ?></label>
 									<td class="wpsite_limit_posts_admin_table_td">
-										<input id="wpsite_limit_posts_settings_all_users" name="wpsite_limit_posts_settings_all_users" type="checkbox" <?php echo isset($settings['all']) && $settings['all'] ? 'checked="checked"' : ''; ?>>
+										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="capability" <?php echo isset($settings['all']) && $settings['all'] == 'capability' ? 'checked="checked"' : ''; ?>><label><?php _e('Capability', self::$text_domain); ?></label><br />
+										
+										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="user" <?php echo isset($settings['all']) && $settings['all'] == 'user' ? 'checked="checked"' : ''; ?>><label><?php _e('Users', self::$text_domain); ?></label>
 									</td>
 								</th>
 							</tr>

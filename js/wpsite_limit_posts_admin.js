@@ -6,8 +6,8 @@
  
 jQuery(document).ready(function($) {
 
-	$("#wpsite_limit_posts_settings_all_users").change(function(){
-		if ($(this).prop('checked')) {
+	$("input:radio[name=wpsite_limit_posts_settings_all_users]").change(function(){
+		if ($(this).val() == 'capability') {
 			$(".wpsite_limit_posts_users").hide();
 			$(".wpsite_limit_posts_roles").show();
 		} else {
@@ -16,7 +16,7 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	if ($("#wpsite_limit_posts_settings_all_users").prop('checked')) {
+	if ($("input:radio[name=wpsite_limit_posts_settings_all_users]:checked").val() == 'capability') {
 		$(".wpsite_limit_posts_users").hide();
 		$(".wpsite_limit_posts_roles").show();
 	} else {
