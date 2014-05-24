@@ -44,21 +44,25 @@ register_activation_hook( __FILE__, array('WPsiteLimitPosts', 'register_activati
  * Hooks / Filter 
  */
 
-//add_action('init', array('WPsiteLimitPosts', 'wpsite_limit_post_register_post_status'));
+add_action('init', array('WPsiteLimitPosts', 'wpsite_limit_post_register_post_status'));
 add_action('init', array('WPsiteLimitPosts', 'load_textdoamin'));
 
 add_action('admin_menu', array('WPsiteLimitPosts', 'wpsite_limit_posts_menu_page'));
 add_action('wp_insert_post_data', array('WPsiteLimitPosts', 'wpsite_stop_publish_post'),'99', 2 );
+add_action('admin_notices', array('WPsiteLimitPosts', 'wpsite_limit_posts_notice'));
 
 $plugin = plugin_basename(__FILE__); 
 add_filter("plugin_action_links_$plugin", array('WPsiteLimitPosts', 'wpsite_limit_posts_settings_link'));
+
+foreach ( array( 'post', 'post-new' ) as $hook )
+	add_action( "admin_footer-{$hook}.php", array('WPsiteLimitPosts' ,'extend_submitdiv_post_status' ) );
 
 
 /** 
  *  WPsiteLimitPosts main class
  *
  * @since 1.0.0
- * @using Wordpress 3.8
+ * @using Wordpress 3.9.1
  */
 
 class WPsiteLimitPosts {
@@ -74,7 +78,7 @@ class WPsiteLimitPosts {
 	private static $settings_page = 'wpsite-limit-posts-admin-menu-settings';
 	
 	private static $default = array(
-		'all'			=> true,
+		'all'			=> 'capability',
 		'all_limit'		=> array(),
 		'user_limit'	=> array()
 	);
@@ -110,13 +114,13 @@ class WPsiteLimitPosts {
 	 * @since 1.0.0
 	 */
 	static function wpsite_limit_posts_settings_link($links) { 
-		$settings_link = '<a href="tools.php?page=' . self::$settings_page . '">Settings</a>'; 
+		$settings_link = '<a href="options-general.php?page=' . self::$settings_page . '">Settings</a>'; 
 		array_unshift($links, $settings_link); 
 		return $links; 
 	}
 	
 	/**
-	 * Hooks to the 'publish_post' action 
+	 * Hooks to the 'wp_insert_post_data' action 
 	 * 
 	 * @since 1.0.0
 	 */
@@ -136,16 +140,22 @@ class WPsiteLimitPosts {
 		
 		if (!current_user_can('moderate_comments') && current_user_can('publish_posts')) { 
 		
-			if (isset($settings['all']) && $settings['all']) {
+			// Capabilities
+		
+			if (isset($settings['all']) && $settings['all'] == 'capability') {
 				
 				if ($data['post_status'] == 'publish' && (int) $settings['all_limit'][implode(', ', $user_data->roles)] <= (int) count_user_posts($data['post_author']) && get_post_status($postarr['ID']) != 'publish') {
-					$data['post_status'] = 'pending';
+					$data['post_status'] = 'limited';
 				}
 				
-			} else if (isset($settings['all']) && !$settings['all']) {
+			} 
+			
+			// Users
+			
+			else if (isset($settings['all']) && $settings['all'] == 'user') {
 				
 				if ($data['post_status'] == 'publish' && (int) $settings['user_limit'][$data['post_author']] <= (int) count_user_posts($data['post_author']) && get_post_status($postarr['ID']) != 'publish') {
-					$data['post_status'] = 'pending';
+					$data['post_status'] = 'limited';
 				}
 				
 			}
@@ -161,11 +171,28 @@ class WPsiteLimitPosts {
 	 * @since 1.0.0
 	 */
 	static function wpsite_limit_posts_notice() {
-		?>
-		<div class="error">
-		    <p><?php _e('You are at your post limit.  You are not allowed to publish anymore posts.', self::$text_domain); ?></p>
-		</div>
-		<?php
+	
+		global $pagenow;
+		
+		if ($pagenow == 'post.php' && isset($_GET['post'])) {
+			
+			$post = get_post($_GET['post']);
+			
+			if (isset($post) && $post->post_status == 'limited') {
+			
+				$author_data = get_userdata($post->post_author);
+				
+				if (isset($author_data) && get_current_user_id() != $post->post_author) {
+					echo '<div class="error">
+						<p>' . __("Author: $author_data->user_login is at his or her post limit.", self::$text_domain) . '</p>
+					</div>';
+				} else {
+					echo '<div class="error">
+						<p>' . __("You are at or you have exceeded your post limit.", self::$text_domain) . '</p>
+					</div>';
+				}
+			}
+		}
 	}
 	
 	/**
@@ -213,12 +240,12 @@ class WPsiteLimitPosts {
 		
 		/* CSS */
 		
-		wp_register_style('wpsite_limit_posts_admin_css', WPSITE_LIMIT_POSTS_PLUGIN_URL . '/include/css/wpsite_limit_posts_admin.css');
+		wp_register_style('wpsite_limit_posts_admin_css', WPSITE_LIMIT_POSTS_PLUGIN_URL . '/css/wpsite_limit_posts_admin.css');
 		wp_enqueue_style('wpsite_limit_posts_admin_css');
 	
 		/* Javascript */
 		
-		wp_register_script('wpsite_limit_posts_admin_js', WPSITE_LIMIT_POSTS_PLUGIN_URL . '/include/js/wpsite_limit_posts_admin.js');
+		wp_register_script('wpsite_limit_posts_admin_js', WPSITE_LIMIT_POSTS_PLUGIN_URL . '/js/wpsite_limit_posts_admin.js');
 		wp_enqueue_script('wpsite_limit_posts_admin_js');	
 	}
 	
@@ -248,7 +275,7 @@ class WPsiteLimitPosts {
 			if ($settings === false) 
 				$settings = self::$default;
 				
-			$settings['all'] = isset($_POST['wpsite_limit_posts_settings_all_users']) && $_POST['wpsite_limit_posts_settings_all_users'] ? true : false;
+			$settings['all'] = isset($_POST['wpsite_limit_posts_settings_all_users']) ? $_POST['wpsite_limit_posts_settings_all_users'] : 'capability';
 				
 			$limited_roles = array();
 			
@@ -278,100 +305,50 @@ class WPsiteLimitPosts {
 			update_option('wpsite_limit_posts_settings', $settings);
 		}
 		
-		?>
-		
-		<div class="wrap wpsite_admin_panel">
-			<div class="wpsite_admin_panel_banner">
-				<h1><?php _e('WPsite Limit Posts', self::$text_domain); ?></h1>
-			</div>
-			
-			<div id="wpsite_admin_panel_settings" class="wpsite_admin_panel_content">
-		
-				<form method="post">
-					
-					<table>
-						<tbody>
-						
-							<!-- Checkbox for all users or individual -->
-							
-							<tr>
-								<th class="wpsite_limit_posts_admin_table_th">
-									<label><?php _e('Limit All Users', self::$text_domain); ?></label>
-									<td class="wpsite_limit_posts_admin_table_td">
-										<input id="wpsite_limit_posts_settings_all_users" name="wpsite_limit_posts_settings_all_users" type="checkbox" <?php echo isset($settings['all']) && $settings['all'] ? 'checked="checked"' : ''; ?>>
-									</td>
-								</th>
-							</tr>
-							
-							<!-- All users -->
-						
-							<?php
-							$limited_roles = array();
-							
-							foreach ($wp_roles->roles as $role) {
-								
-								$role_name = strtolower($role['name']);
-							
-								if (isset($role['capabilities']) && isset($role['capabilities']['publish_posts']) && !isset($role['capabilities']['moderate_comments'])) {
-									?>
-									<tr class="wpsite_limit_posts_roles">
-										<th class="wpsite_limit_posts_admin_table_th">
-											<label><?php _e($role['name'], self::$text_domain); ?></label>
-											<td class="wpsite_limit_posts_admin_table_td">
-												<input id="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" name="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" type="text" size="10" value="<?php echo isset($settings['all_limit'][$role_name]) ? esc_attr($settings['all_limit'][$role_name]) : ''; ?>">
-											</td>
-										</th>
-									</tr>
-									<?php
-									$limited_roles[] = $role['name'];
-								}
-							}?>
-							
-							<!-- List all individual users -->
-							
-							<?php 
-							
-							$all_users = get_users();
-							$users = array();
-							
-							foreach ($all_users as $user) {
-								if (user_can($user->ID, 'publish_posts') && !user_can($user->ID, 'moderate_comments')) {
-									$users[] = $user;
-								}
-							}
-							
-							foreach ($users as $user) {
-								?><tr class="wpsite_limit_posts_users">
-									<th class="wpsite_limit_posts_admin_table_th">
-										<label><?php _e($user->user_nicename, self::$text_domain); ?></label>
-										<td class="wpsite_limit_posts_admin_table_td">
-											<input id="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" name="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" type="text" size="10" value="<?php echo isset($settings['user_limit'][$user->ID]) ? esc_attr($settings['user_limit'][$user->ID]) : ''; ?>">
-										</td>
-									</th>
-								</tr><?php
-							}
-							
-							?>
-						
-						</tbody>
-					</table>
-					
-				<?php wp_nonce_field('wpsite_limit_posts_admin_settings'); ?>
-				
-				<?php submit_button(); ?>
-				
-				</form>
+		require_once('admin/dashboard.php');
+	}
+	
+	/**
+	 * Adds post status to the "submitdiv" Meta Box and post type WP List Table screens. Based on https://gist.github.com/franz-josef-kaiser/2930190
+	 *
+	 * @return void
+	 */
+	static function extend_submitdiv_post_status() {
+		global $wp_post_statuses, $post, $post_type;
 
-			</div>
-			
-			<div id="wpsite_admin_panel_sidebar" class="wpsite_admin_panel_content">
-				<div class="wpsite_admin_panel_sidebar_img">
-					<a target="_blank" href="http://wpsite.net"><img src="http://www.wpsite.net/wp-content/uploads/2011/10/logo-only-100h.png"></a>
-				</div>
-			</div>
-		</div>
-		
-		
+		// Get all non-builtin post status and add them as <option>
+		$options = $display = '';
+		foreach ( $wp_post_statuses as $status )
+		{
+			if ( ! $status->_builtin ) {
+				// Match against the current posts status
+				$selected = selected( $post->post_status, $status->name, false );
+
+				// If we one of our custom post status is selected, remember it
+				$selected AND $display = $status->label;
+
+				// Build the options
+				$options .= "<option{$selected} value='{$status->name}'>{$status->label}</option>";
+			}
+		}
+		?>
+		<script type="text/javascript">
+			jQuery( document ).ready( function($)
+			{
+				<?php
+				// Add the selected post status label to the "Status: [Name] (Edit)"
+				if ( ! empty( $display ) ) :
+				?>
+					$( '#post-status-display' ).html( '<?php echo $display; ?>' )
+				<?php
+				endif;
+
+				// Add the options to the <select> element
+				?>
+				var select = $( '#post-status-select' ).find( 'select' );
+				$( select ).append( "<?php echo $options; ?>" );
+			} );
+		</script>
 		<?php
 	}
 }

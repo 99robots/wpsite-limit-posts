@@ -1,5 +1,5 @@
 === WPsite Limit Posts ===
-Contributors:
+Contributors: wpsite, kjbenk, charliepatel
 Donate link: 
 Tags:
 Requires at least: 1.0
