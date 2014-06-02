@@ -6,18 +6,18 @@
 				<!-- ** UPDATE THE UTM LINK BELOW ** -->
 				<div class="announcement">
 					<h2><?php _e('Check out the all new', self::$text_domain); ?> <strong><?php _e('WPsite.net', self::$text_domain); ?></strong> <?php _e('for more WordPress resources, plugins, and news.', self::$text_domain); ?></h2>
-					<a  class="show-me" href="http://www.wpsite.net/?utm_source=follow-us-badges-plugin&amp;utm_medium=announce&amp;utm_campaign=top"><?php _e('Click Here', self::$text_domain); ?></a>
+					<a  class="show-me" href="http://www.wpsite.net/?utm_source=limit-posts-plugin&amp;utm_medium=announce&amp;utm_campaign=top"><?php _e('Click Here', self::$text_domain); ?></a>
 				</div>
 
 				<header class="headercontent">
 					<!-- ** UPDATE THE NAME ** -->
 					<h1 class="logo"><?php _e('Limit Posts', self::$text_domain); ?></h1>
-					<span class="slogan"><?php _e('by', self::$text_domain); ?> <a href="http://www.wpsite.com/?utm_source=topadmin&amp;utm_medium=announce&amp;utm_campaign=top"><?php _e('WPsite.net', self::$text_domain); ?></a></span>
+					<span class="slogan"><?php _e('by', self::$text_domain); ?> <a href="http://www.wpsite.net/?utm_source=topadmin&amp;utm_medium=announce&amp;utm_campaign=top"><?php _e('WPsite.net', self::$text_domain); ?></a></span>
 
 					<!-- ** UPDATE THE 2 LINKS ** -->
 					<div class="top-call-to-actions">
-						<a class="tweet-about-plugin" href="https://twitter.com/intent/tweet?text=Neat%20and%20simple%20plugin%20for%20WordPress%20users.%20Check%20out%20the%20Follow%20Us%20plugin%20by%20@WPsite%20-%20&amp;url=http%3A%2F%2Fwpsite.net%2Fplugins%2F&amp;via=wpsite"><span></span><?php _e('Tweet About WPsite', self::$text_domain); ?></a>
-						<a class="leave-a-review" href="http://wordpress.org/support/view/plugin-reviews/follow-us-badges#postform" target="_blank"><span></span> <?php _e('Leave A Review', self::$text_domain); ?></a>
+						<a class="tweet-about-plugin" href="https://twitter.com/intent/tweet?text=Neat%20and%20simple%20plugin%20for%20WordPress%20users.%20Check%20out%20the%20Limit%20Posts%20plugin%20by%20@WPsite%20-%20&amp;url=http%3A%2F%2Fwpsite.net%2Fplugins%2F&amp;via=wpsite"><span></span><?php _e('Tweet About WPsite', self::$text_domain); ?></a>
+						<a class="leave-a-review" href="http://wordpress.org/support/view/plugin-reviews/wpsite-limit-posts#postform" target="_blank"><span></span> <?php _e('Leave A Review', self::$text_domain); ?></a>
 					</div><!-- end .top-call-to-actions -->
 				</header>
 		</div> <!-- /wpsite_plugin_header -->
@@ -37,9 +37,9 @@
 								<th class="wpsite_limit_posts_admin_table_th">
 									<label><?php _e('Limit by', self::$text_domain); ?></label>
 									<td class="wpsite_limit_posts_admin_table_td">
-										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="capability" <?php echo isset($settings['all']) && $settings['all'] == 'capability' ? 'checked="checked"' : ''; ?>><label><?php _e('Capability', self::$text_domain); ?></label><br />
+										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="capability" <?php echo isset($settings['all']) && $settings['all'] == 'capability' ? 'checked="checked"' : ''; ?>><label><?php _e('Role', self::$text_domain); ?></label><br />
 
-										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="user" <?php echo isset($settings['all']) && $settings['all'] == 'user' ? 'checked="checked"' : ''; ?>><label><?php _e('Users', self::$text_domain); ?></label>
+										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="user" <?php echo isset($settings['all']) && $settings['all'] == 'user' ? 'checked="checked"' : ''; ?>><label><?php _e('User', self::$text_domain); ?></label>
 									</td>
 								</th>
 							</tr>

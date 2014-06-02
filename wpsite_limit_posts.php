@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPsite Limit Posts
 plugin URI: http://wpsite.net
-Description: Limit the number of posts that authors can publish.
+Description: Limit the number of posts or custom post types that can be published based on role (i.e, author) or user.
 version: 1.0
 Author: WPsite
 Author URI: http://wpsite.net
