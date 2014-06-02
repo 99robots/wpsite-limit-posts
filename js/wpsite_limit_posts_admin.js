@@ -3,7 +3,7 @@
  * kylebenkapps.com
  *
  */
- 
+
 jQuery(document).ready(function($) {
 
 	$("input:radio[name=wpsite_limit_posts_settings_all_users]").change(function(){
@@ -23,5 +23,5 @@ jQuery(document).ready(function($) {
 		$(".wpsite_limit_posts_users").show();
 		$(".wpsite_limit_posts_roles").hide();
 	}
-	
+
 });
