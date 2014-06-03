@@ -59,7 +59,8 @@
 										<th class="wpsite_limit_posts_admin_table_th">
 											<label><?php _e($role['name'], self::$text_domain); ?></label>
 											<td class="wpsite_limit_posts_admin_table_td">
-												<input id="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" name="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" type="text" size="10" value="<?php echo isset($settings['all_limit'][$role_name]) ? esc_attr($settings['all_limit'][$role_name]) : ''; ?>">
+												<input id="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" name="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" type="text" size="10" value="<?php echo isset($settings['all_limit'][$role_name]) ? esc_attr($settings['all_limit'][$role_name]) : ''; ?>"><br/>
+												<em><?php _e("Default: -1 (i.e. umlimited)", self::$text_domain); ?></em>
 											</td>
 										</th>
 									</tr>
@@ -86,7 +87,8 @@
 									<th class="wpsite_limit_posts_admin_table_th">
 										<label><?php _e($user->user_nicename, self::$text_domain); ?></label>
 										<td class="wpsite_limit_posts_admin_table_td">
-											<input id="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" name="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" type="text" size="10" value="<?php echo isset($settings['user_limit'][$user->ID]) ? esc_attr($settings['user_limit'][$user->ID]) : ''; ?>">
+											<input id="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" name="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" type="text" size="10" value="<?php echo isset($settings['user_limit'][$user->ID]) ? esc_attr($settings['user_limit'][$user->ID]) : ''; ?>"><br/>
+											<em><?php _e("Default: -1 (i.e. umlimited)", self::$text_domain); ?></em>
 										</td>
 									</th>
 								</tr><?php

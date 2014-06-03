@@ -142,7 +142,7 @@ class WPsiteLimitPosts {
 
 			// Capabilities
 
-			if (isset($settings['all']) && $settings['all'] == 'capability') {
+			if (isset($settings['all']) && $settings['all'] == 'capability' && (int) $settings['all_limit'][implode(', ', $user_data->roles)] != -1) {
 
 				if ($data['post_status'] == 'publish' && (int) $settings['all_limit'][implode(', ', $user_data->roles)] <= (int) count_user_posts($data['post_author']) && get_post_status($postarr['ID']) != 'publish') {
 					$data['post_status'] = 'limited';
@@ -152,7 +152,7 @@ class WPsiteLimitPosts {
 
 			// Users
 
-			else if (isset($settings['all']) && $settings['all'] == 'user') {
+			else if (isset($settings['all']) && $settings['all'] == 'user' && (int) $settings['user_limit'][$data['post_author']] != -1) {
 
 				if ($data['post_status'] == 'publish' && (int) $settings['user_limit'][$data['post_author']] <= (int) count_user_posts($data['post_author']) && get_post_status($postarr['ID']) != 'publish') {
 					$data['post_status'] = 'limited';
@@ -284,8 +284,14 @@ class WPsiteLimitPosts {
 				$role_name = strtolower($role['name']);
 
 				if (isset($role['capabilities']) && isset($role['capabilities']['publish_posts']) && !isset($role['capabilities']['moderate_comments'])) {
-					$settings['all_limit'][$role_name] = isset($_POST['wpsite_limit_posts_settings_post_num_' . $role_name]) ? (int) stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_post_num_' . $role_name])) : null;
-					$limited_roles[] = $role['name'];
+
+					if (stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_post_num_' . $role_name])) == '') {
+						$settings['all_limit'][$role_name] = -1;
+						$limited_roles[] = $role['name'];
+					} else {
+						$settings['all_limit'][$role_name] = isset($_POST['wpsite_limit_posts_settings_post_num_' . $role_name]) ? (int) stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_post_num_' . $role_name])) : '-1';
+						$limited_roles[] = $role['name'];
+					}
 				}
 			}
 
@@ -299,7 +305,13 @@ class WPsiteLimitPosts {
 			}
 
 			foreach ($users as $user) {
-				$settings['user_limit'][$user->ID] = isset($_POST['wpsite_limit_posts_settings_user_' . $user->ID]) ? (int) stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_user_' . $user->ID])) : null;
+
+				if (stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_user_' . $user->ID])) == '') {
+					$settings['user_limit'][$user->ID] = -1;
+				} else {
+					$settings['user_limit'][$user->ID] = isset($_POST['wpsite_limit_posts_settings_user_' . $user->ID]) ? (int) stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_user_' . $user->ID])) : '-1';
+				}
+
 			}
 
 			update_option('wpsite_limit_posts_settings', $settings);
