@@ -3,8 +3,8 @@ Contributors: wpsitenet, kjbenk, charliepatel
 Donate link:
 Tags: limit posts, limit number of posts, limit author posts, custom post limits, post creation limits, cpt limits, limit pages, limit user, limits, post limit, posts per user, user post limit, page limit, publish limit
 Requires at least: 3.8
-Tested up to: 4.0
-Stable tag: 1.0.1
+Tested up to: 4.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,8 +57,11 @@ Rather than force the user to delete their post, such posts will be submitted fo
 
 == Changelog ==
 
+= 1.0.2 =
+* Compatible with WordPress 4.1
+
 = 1.0.1 =
-Supports WordPress 4.0
+* Supports WordPress 4.0
 
 = 1.0 =
-Initial release
+* Initial release
