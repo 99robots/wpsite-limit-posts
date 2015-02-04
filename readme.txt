@@ -1,10 +1,10 @@
 === WPsite Limit Posts ===
-Contributors: wpsitenet, kjbenk, charliepatel
+Contributors: 99robots, wpsitenet, kjbenk, charliepatel
 Donate link:
 Tags: limit posts, limit number of posts, limit author posts, custom post limits, post creation limits, cpt limits, limit pages, limit user, limits, post limit, posts per user, user post limit, page limit, publish limit
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,9 @@ Rather than force the user to delete their post, such posts will be submitted fo
 1. Limit Posts Settings
 
 == Changelog ==
+
+= 1.0.3 =
+* Minor Updates
 
 = 1.0.2 =
 * Compatible with WordPress 4.1
