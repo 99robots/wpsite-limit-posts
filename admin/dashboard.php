@@ -40,6 +40,8 @@
 										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="capability" <?php echo isset($settings['all']) && $settings['all'] == 'capability' ? 'checked="checked"' : ''; ?>><label><?php _e('Role', self::$text_domain); ?></label><br />
 
 										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="user" <?php echo isset($settings['all']) && $settings['all'] == 'user' ? 'checked="checked"' : ''; ?>><label><?php _e('User', self::$text_domain); ?></label>
+
+										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="post_type" <?php echo isset($settings['all']) && $settings['all'] == 'post_type' ? 'checked="checked"' : ''; ?>><label><?php _e('Post Type', self::$text_domain); ?></label>
 									</td>
 								</th>
 							</tr>
@@ -91,6 +93,37 @@
 											<em><?php _e("Default: -1 (i.e. umlimited)", self::$text_domain); ?></em>
 										</td>
 									</th>
+								</tr><?php
+							}
+
+							?>
+
+							<!-- List all Post Types -->
+
+							<?php
+
+							$all_post_types_public = get_post_types(array('public'=> true),'names');
+							$all_post_types = array();
+							$post_types = array();
+
+							foreach ($all_post_types_public as $a){
+								if ($a != 'attachment'){
+									$all_post_types[] = $a;
+								}
+							}
+							foreach ($all_post_types as $post_type) {
+								$post_types[] = $post_type;
+							}
+
+							foreach ($post_types as $post_type) {
+								?><tr class="wpsite_limit_posts_post_type">
+								<th class="wpsite_limit_posts_admin_table_th">
+									<label><?php _e($post_type, self::$text_domain); ?></label>
+								<td class="wpsite_limit_posts_admin_table_td">
+									<input id="wpsite_limit_posts_settings_<?php echo $post_type; ?>" name="wpsite_limit_posts_settings_<?php echo $post_type; ?>" type="text" size="10" value="<?php echo isset($settings['post_type_limit'][$post_type]) ? esc_attr($settings['post_type_limit'][$post_type]) : ''; ?>"><br/>
+									<em><?php _e("Default: -1 (i.e. umlimited)", self::$text_domain); ?></em>
+								</td>
+								</th>
 								</tr><?php
 							}
 
