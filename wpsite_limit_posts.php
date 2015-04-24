@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: WPsite Limit Posts
-plugin URI: http://wpsite.net
+Plugin Name: 99 Robots Limit Posts
+plugin URI: http://99robots.com
 Description: Limit the number of posts or custom post types that can be published based on role (i.e, author) or user.
-version: 1.0.3
-Author: WPSITE.net
-Author URI: http://wpsite.net
+version: 1.0.4
+Author: 99 Robots
+Author URI: http://99robots.com
 License: GPL2
 */
 
@@ -31,7 +31,7 @@ if (!defined('WPSITE_LIMIT_POSTS_PLUGIN_URL'))
 /* Plugin verison */
 
 if (!defined('WPSITE_LIMIT_POSTS_VERSION_NUM'))
-    define('WPSITE_LIMIT_POSTS_VERSION_NUM', '1.0.3');
+    define('WPSITE_LIMIT_POSTS_VERSION_NUM', '1.0.4');
 
 
 /**
@@ -222,8 +222,8 @@ class WPsiteLimitPosts {
 
 	    $settings_page_load = add_submenu_page(
 	    	'options-general.php', 													// parent slug
-	    	__('WPsite Limit Posts', self::$text_domain), 						// Page title
-	    	__('WPsite Limit Posts', self::$text_domain), 						// Menu name
+	    	__('99 Robots Limit Posts', self::$text_domain), 						// Page title
+	    	__('99 Robots Limit Posts', self::$text_domain), 						// Menu name
 	    	'manage_options', 											// Capabilities
 	    	self::$settings_page, 										// slug
 	    	array('WPsiteLimitPosts', 'wpsite_limit_posts_admin_settings')	// Callback function

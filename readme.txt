@@ -1,5 +1,5 @@
-=== WPsite Limit Posts ===
-Contributors: 99robots, wpsitenet, kjbenk, charliepatel
+=== 99 Robots Limit Posts ===
+Contributors: 99robots, wpsitenet
 Donate link:
 Tags: limit posts, limit number of posts, limit author posts, custom post limits, post creation limits, cpt limits, limit pages, limit user, limits, post limit, posts per user, user post limit, page limit, publish limit
 Requires at least: 3.8
@@ -12,7 +12,7 @@ Limit the number of posts or custom post types that can be published based on ro
 
 == Description ==
 
-Limit the number of posts that your authors can publish. This plugin by http://www.wpsite.net allows you to limit the number of posts that can be published based on role (i.e, author) or user.
+Limit the number of posts that your authors can publish. This plugin by http://99robots.com allows you to limit the number of posts that can be published based on role (i.e, author) or user.
 
 It allows for the following:
 
@@ -23,16 +23,16 @@ It allows for the following:
 
 = Support =
 Have a question or comment about this plugin. Visit the plugin's page at:
-http://www.wpsite.net/limit-posts-plugin
+http://99robots.com
 
 == Installation ==
 
-You can install the Limit Posts plugin from your WordPress Dashboard or manually via FTP. For more details, visit http://www.wpsite.net
+You can install the Limit Posts plugin from your WordPress Dashboard or manually via FTP. For more details, visit http://99robots.com
 
 = From WordPress Dashboard =
 
 # Navigate to 'Plugins -> Add New' from your WordPress dashboard.
-# Search for `WPsite Limit Posts` and install it.
+# Search for `99 Robots Limit Posts` and install it.
 # Activate the plugin from Plugins menu.
 # Configure the plugin's settings
 # Add any widget to your widget zone from Appearance -> Widgets and configure the widget options.
@@ -56,6 +56,9 @@ Rather than force the user to delete their post, such posts will be submitted fo
 1. Limit Posts Settings
 
 == Changelog ==
+
+= 1.0.4 =
+* Re-branded to 99 Robots
 
 = 1.0.3 =
 * Minor Updates
