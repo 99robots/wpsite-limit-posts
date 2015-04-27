@@ -80,7 +80,8 @@ class WPsiteLimitPosts {
 	private static $default = array(
 		'all'			=> 'capability',
 		'all_limit'		=> array(),
-		'user_limit'	=> array()
+		'user_limit'	=> array(),
+		'post_type_limit' => array()
 	);
 
 	/**
@@ -126,43 +127,77 @@ class WPsiteLimitPosts {
 	 */
 	static function wpsite_stop_publish_post($data, $postarr) {
 
-		$user_data = get_userdata($data['post_author']);
-		$caps = $user_data->wp_capabilities;
+		$all_post_types_public = get_post_types(array('public'=> true),'names');
+		$all_post_types = array();
+		$post_types = array();
 
-		$settings = get_option('wpsite_limit_posts_settings');
-
-		/* Default values */
-
-		if ($settings === false)
-			$settings = self::$default;
-
-		global $wp_roles;
-
-		if (!current_user_can('moderate_comments') && current_user_can('publish_posts')) {
-
-			// Capabilities
-
-			if (isset($settings['all']) && $settings['all'] == 'capability' && (int) $settings['all_limit'][implode(', ', $user_data->roles)] != -1) {
-
-				if ($data['post_status'] == 'publish' && (int) $settings['all_limit'][implode(', ', $user_data->roles)] <= (int) count_user_posts($data['post_author']) && get_post_status($postarr['ID']) != 'publish') {
-					$data['post_status'] = 'limited';
-				}
-
+		foreach ($all_post_types_public as $a){
+			if ($a != 'attachment'){
+				$all_post_types[] = $a;
 			}
-
-			// Users
-
-			else if (isset($settings['all']) && $settings['all'] == 'user' && (int) $settings['user_limit'][$data['post_author']] != -1) {
-
-				if ($data['post_status'] == 'publish' && (int) $settings['user_limit'][$data['post_author']] <= (int) count_user_posts($data['post_author']) && get_post_status($postarr['ID']) != 'publish') {
-					$data['post_status'] = 'limited';
-				}
-
-			}
-
+		}
+		foreach ($all_post_types as $post_type) {
+			$post_types[] = $post_type;
 		}
 
-		return $data;
+		if (in_array(get_post_type(),$post_types)) {
+
+			$user_data = get_userdata($data['post_author']);
+			$caps = $user_data->wp_capabilities;
+			$post_type_data = get_post_type();
+
+			$settings = get_option('wpsite_limit_posts_settings');
+
+			/* Default values */
+
+			if ($settings === false)
+				$settings = self::$default;
+
+			global $wp_roles;
+
+			if (!current_user_can('moderate_comments') && current_user_can('publish_posts')) {
+				// Capabilities
+
+				if (isset($settings['all']) && $settings['all'] == 'capability' && (int)$settings['all_limit'][implode(', ', $user_data->roles)] != -1) {
+
+					if ($data['post_status'] == 'publish' && (int)$settings['all_limit'][implode(', ', $user_data->roles)] <= (int)count_user_posts($data['post_author']) && get_post_status($postarr['ID']) != 'publish') {
+						$data['post_status'] = 'limited';
+					}
+
+				} // Users
+
+				else if (isset($settings['all']) && $settings['all'] == 'user' && (int)$settings['user_limit'][$data['post_author']] != -1) {
+					if ($data['post_status'] == 'publish' && (int)$settings['user_limit'][$data['post_author']] <= (int)count_user_posts($data['post_author']) && get_post_status($postarr['ID']) != 'publish') {
+						$data['post_status'] = 'limited';
+					}
+
+
+				}
+				if (isset($settings['all']) && $settings['all'] == 'post_type' && (int)$settings['post_type_limit'][$post_type_data] != -1) {
+					$count_posts = wp_count_posts(get_post_type());
+					$published_posts = $count_posts->publish;
+
+					if ($data['post_status'] == 'publish' && (int)$settings['post_type_limit'][$post_type_data] <= (int)$published_posts && get_post_status($postarr['ID']) != 'publish') {
+						$data['post_status'] = 'limited';
+					}
+
+				}
+			} else {
+				if (isset($settings['all']) && $settings['all'] == 'post_type' && (int)$settings['post_type_limit'][$post_type_data] != -1) {
+					$count_posts = wp_count_posts(get_post_type());
+					$published_posts = $count_posts->publish;
+
+					if ($data['post_status'] == 'publish' && (int)$settings['post_type_limit'][$post_type_data] <= (int)$published_posts && get_post_status($postarr['ID']) != 'publish') {
+						$data['post_status'] = 'limited';
+					}
+
+				}
+			}
+			return $data;
+		}
+		else{
+			return $data;
+		}
 	}
 
 	/**
@@ -312,6 +347,26 @@ class WPsiteLimitPosts {
 					$settings['user_limit'][$user->ID] = isset($_POST['wpsite_limit_posts_settings_user_' . $user->ID]) ? (int) stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_user_' . $user->ID])) : '-1';
 				}
 
+			}
+
+			$all_post_types_public = get_post_types(array('public'=> true),'names');
+			$all_post_types = array();
+			$post_types = array();
+
+			foreach ($all_post_types_public as $a){
+				if ($a != 'attachment'){
+					$all_post_types[] = $a;
+				}
+			}
+			foreach ($all_post_types as $post_type) {
+				$post_types[] = $post_type;
+			}
+			foreach ($post_types as $post_type) {
+				if (stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_' . $post_type])) == '') {
+					$settings['post_type_limit'][$post_type] = -1;
+				} else {
+					$settings['post_type_limit'][$post_type] = isset($_POST['wpsite_limit_posts_settings_' . $post_type]) ? (int) stripcslashes(sanitize_text_field($_POST['wpsite_limit_posts_settings_' . $post_type])) : '-1';
+				}
 			}
 
 			update_option('wpsite_limit_posts_settings', $settings);
