@@ -1,9 +1,3 @@
-/*
- * Created by: Kyle Benk
- * kylebenkapps.com
- *
- */
-
 jQuery(document).ready(function($) {
 
 	$("input:radio[name=wpsite_limit_posts_settings_all_users]").change(function(){

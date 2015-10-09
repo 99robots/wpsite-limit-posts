@@ -1,140 +1,85 @@
-<div class="wrap">
+<div class="nnr-wrap">
 
-	<div class="wpsite_plugin_wrapper">
+	<?php require_once('header.php'); ?>
 
-		<div class="wpsite_plugin_header">
-				<!-- ** UPDATE THE UTM LINK BELOW ** -->
-				<div class="announcement">
-					<h2><?php _e('Check out the all new', self::$text_domain); ?> <strong><?php _e('99 Robots', self::$text_domain); ?></strong> <?php _e('for more WordPress resources, plugins, and news.', self::$text_domain); ?></h2>
-					<a  class="show-me" href="http://www.99robots.com/?utm_source=limit-posts-plugin&amp;utm_medium=announce&amp;utm_campaign=top"><?php _e('Click Here', self::$text_domain); ?></a>
+	<div class="nnr-container">
+
+		<div class="nnr-content">
+
+			<h1 id="nnr-heading"><?php _e('Settings', self::$text_domain); ?></h1>
+
+			<form method="post" class="form-horizontal">
+
+				<!-- Limit by -->
+
+				<div class="form-group">
+					<label class="col-sm-3 control-label"><?php _e('Limit by', self::$text_domain); ?></label>
+					<div class="col-sm-9">
+						<input name="wpsite_limit_posts_settings_all_users" type="radio" value="capability" <?php echo isset($settings['all']) && $settings['all'] == 'capability' ? 'checked="checked"' : ''; ?>><span><?php _e('Role', self::$text_domain); ?></span><br />
+
+						<input name="wpsite_limit_posts_settings_all_users" type="radio" value="user" <?php echo isset($settings['all']) && $settings['all'] == 'user' ? 'checked="checked"' : ''; ?>><span><?php _e('User', self::$text_domain); ?></span>
+					</div>
 				</div>
 
-				<header class="headercontent">
-					<!-- ** UPDATE THE NAME ** -->
-					<h1 class="logo"><?php _e('Limit Posts', self::$text_domain); ?></h1>
-					<span class="slogan"><?php _e('by', self::$text_domain); ?> <a href="http://www.99robots.com/?utm_source=topadmin&amp;utm_medium=announce&amp;utm_campaign=top"><?php _e('99 Robots', self::$text_domain); ?></a></span>
+				<!-- All users -->
 
-					<!-- ** UPDATE THE 2 LINKS ** -->
-					<div class="top-call-to-actions">
-						<a class="tweet-about-plugin" href="https://twitter.com/intent/tweet?text=%20Check%20out%20the%20Limit%20Posts%20plugin%20by%20@99robots%20-%20&amp;url=http%3A%2F%2F99robots.com%2Fplugins%2F&amp;via=99robots"><span></span><?php _e('Tweet About 99 Robots', self::$text_domain); ?></a>
-						<a class="leave-a-review" href="http://wordpress.org/support/view/plugin-reviews/wpsite-limit-posts#postform" target="_blank"><span></span> <?php _e('Leave A Review', self::$text_domain); ?></a>
-					</div><!-- end .top-call-to-actions -->
-				</header>
-		</div> <!-- /wpsite_plugin_header -->
+				<?php
+				$limited_roles = array();
 
-		<div id="wpsite_plugin_content">
+				foreach ($wp_roles->roles as $role) {
 
-			<div id="wpsite_plugin_settings">
+					$role_name = strtolower($role['name']);
 
-				<form method="post">
+					if (isset($role['capabilities']) && isset($role['capabilities']['publish_posts']) && !isset($role['capabilities']['moderate_comments'])) {
+						?>
+						<div class="form-group wpsite_limit_posts_roles">
+							<label class="col-sm-3 control-label"><?php _e($role['name'], self::$text_domain); ?></label>
+							<div class="col-sm-9">
+								<input id="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" name="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" type="text" class="form-control" value="<?php echo isset($settings['all_limit'][$role_name]) ? esc_attr($settings['all_limit'][$role_name]) : ''; ?>">
+								<em class="help-block"><?php _e("Default: -1 (i.e. umlimited)", self::$text_domain); ?></em>
+							</div>
+						</div>
+						<?php
+						$limited_roles[] = $role['name'];
+					}
+				} ?>
 
-					<table>
-						<tbody>
+				<!-- List all individual users -->
 
-							<!-- Checkbox for all users or individual -->
+				<?php
 
-							<tr>
-								<th class="wpsite_limit_posts_admin_table_th">
-									<label><?php _e('Limit by', self::$text_domain); ?></label>
-									<td class="wpsite_limit_posts_admin_table_td">
-										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="capability" <?php echo isset($settings['all']) && $settings['all'] == 'capability' ? 'checked="checked"' : ''; ?>><label><?php _e('Role', self::$text_domain); ?></label><br />
+				$all_users = get_users();
+				$users = array();
 
-										<input name="wpsite_limit_posts_settings_all_users" type="radio" value="user" <?php echo isset($settings['all']) && $settings['all'] == 'user' ? 'checked="checked"' : ''; ?>><label><?php _e('User', self::$text_domain); ?></label>
-									</td>
-								</th>
-							</tr>
+				foreach ($all_users as $user) {
+					if (user_can($user->ID, 'publish_posts') && !user_can($user->ID, 'moderate_comments')) {
+						$users[] = $user;
+					}
+				}
 
-							<!-- All users -->
-
-							<?php
-							$limited_roles = array();
-
-							foreach ($wp_roles->roles as $role) {
-
-								$role_name = strtolower($role['name']);
-
-								if (isset($role['capabilities']) && isset($role['capabilities']['publish_posts']) && !isset($role['capabilities']['moderate_comments'])) {
-									?>
-									<tr class="wpsite_limit_posts_roles">
-										<th class="wpsite_limit_posts_admin_table_th">
-											<label><?php _e($role['name'], self::$text_domain); ?></label>
-											<td class="wpsite_limit_posts_admin_table_td">
-												<input id="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" name="wpsite_limit_posts_settings_post_num_<?php echo $role_name; ?>" type="text" size="10" value="<?php echo isset($settings['all_limit'][$role_name]) ? esc_attr($settings['all_limit'][$role_name]) : ''; ?>"><br/>
-												<em><?php _e("Default: -1 (i.e. umlimited)", self::$text_domain); ?></em>
-											</td>
-										</th>
-									</tr>
-									<?php
-									$limited_roles[] = $role['name'];
-								}
-							}?>
-
-							<!-- List all individual users -->
-
-							<?php
-
-							$all_users = get_users();
-							$users = array();
-
-							foreach ($all_users as $user) {
-								if (user_can($user->ID, 'publish_posts') && !user_can($user->ID, 'moderate_comments')) {
-									$users[] = $user;
-								}
-							}
-
-							foreach ($users as $user) {
-								?><tr class="wpsite_limit_posts_users">
-									<th class="wpsite_limit_posts_admin_table_th">
-										<label><?php _e($user->user_nicename, self::$text_domain); ?></label>
-										<td class="wpsite_limit_posts_admin_table_td">
-											<input id="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" name="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" type="text" size="10" value="<?php echo isset($settings['user_limit'][$user->ID]) ? esc_attr($settings['user_limit'][$user->ID]) : ''; ?>"><br/>
-											<em><?php _e("Default: -1 (i.e. umlimited)", self::$text_domain); ?></em>
-										</td>
-									</th>
-								</tr><?php
-							}
-
-							?>
-
-						</tbody>
-					</table>
+				foreach ($users as $user) {
+					?>
+					<div class="form-group wpsite_limit_posts_users">
+						<label class="col-sm-3 control-label"><?php _e($user->user_nicename, self::$text_domain); ?></label>
+						<div class="col-sm-9">
+							<input id="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" name="wpsite_limit_posts_settings_user_<?php echo $user->ID; ?>" type="text" class="form-control" value="<?php echo isset($settings['user_limit'][$user->ID]) ? esc_attr($settings['user_limit'][$user->ID]) : ''; ?>">
+							<em class="help-block"><?php _e("Default: -1 (i.e. umlimited)", self::$text_domain); ?></em>
+						</div>
+					</div><?php
+				} ?>
 
 				<?php wp_nonce_field('wpsite_limit_posts_admin_settings'); ?>
 
-				<?php submit_button(); ?>
+				<p class="submit"><input type="submit" name="submit" id="submit" class="btn btn-info" value="<?php _e("Save Changes", self::$text_domain); ?>"></p>
 
-				</form>
+			</form>
 
-			</div> <!-- wpsite_plugin_settings -->
+		</div>
 
-			<div id="wpsite_plugin_sidebar">
-				<div class="wpsite_feed">
-					<h3><?php _e('Must-Read Articles', self::$text_domain); ?></h3>
-					<script src="http://feeds.feedburner.com/wpsite?format=sigpro" type="text/javascript" ></script><noscript><p><?php _e('Subscribe to WPsite Feed:', self::$text_domain); ?> <a href="http://feeds.feedburner.com/wpsite"></a><br/><?php _e('Powered by FeedBurner', self::$text_domain); ?></p> </noscript>
-				</div>
+		<?php require_once('sidebar.php'); ?>
 
-				<div class="mktg-banner">
-					<a target="_blank" href="http://www.wpsite.net/custom-wordpress-development/#utm_source=plugin-config&utm_medium=banner&utm_campaign=custom-development-banner"><img src="<?php echo WPSITE_LIMIT_POSTS_PLUGIN_URL . '/img/ad-custom-development.png' ?>"></a>
-				</div>
+	</div>
 
-				<div class="mktg-banner">
-					<a target="_blank" href="http://www.wpsite.net/services/#utm_source=plugin-config&utm_medium=banner&utm_campaign=plugin-request-banner"><img src="<?php echo WPSITE_LIMIT_POSTS_PLUGIN_URL . '/img/ad-plugin-request.png' ?>"></a>
-				</div>
+	<?php require_once('footer.php'); ?>
 
-				<div class="mktg-banner">
-					<a target="_blank" href="http://www.wpsite.net/themes/#utm_source=plugin-config&utm_medium=banner&utm_campaign=themes-banner"><img src="<?php echo WPSITE_LIMIT_POSTS_PLUGIN_URL . '/img/ad-themes.png' ?>"></a>
-				</div>
-
-<!--
-				<div class="mktg-banner">
-					<a target="_blank" href="http://www.wpsite.net/services/#utm_source=plugin-config&utm_medium=banner&utm_campaign=need-support-banner"><img src="<?php echo WPSITE_LIMIT_POSTS_PLUGIN_URL . '/img/ad-need-support.png' ?>"></a>
-				</div>
--->
-
-			</div> <!-- wpsite_plugin_sidebar -->
-
-		</div> <!-- /wpsite_plugin_content -->
-
-	</div> 	<!-- /wpsite_plugin_wrapper -->
-
-</div> 	<!-- /wrap -->
+</div>

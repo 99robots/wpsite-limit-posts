@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: 99 Robots Limit Posts
+Plugin Name: Limit Posts
 plugin URI: http://99robots.com
 Description: Limit the number of posts or custom post types that can be published based on role (i.e, author) or user.
-version: 1.0.4
+version: 2.0.0
 Author: 99 Robots
 Author URI: http://99robots.com
 License: GPL2
@@ -31,7 +31,7 @@ if (!defined('WPSITE_LIMIT_POSTS_PLUGIN_URL'))
 /* Plugin verison */
 
 if (!defined('WPSITE_LIMIT_POSTS_VERSION_NUM'))
-    define('WPSITE_LIMIT_POSTS_VERSION_NUM', '1.0.4');
+    define('WPSITE_LIMIT_POSTS_VERSION_NUM', '2.0.0');
 
 
 /**
@@ -221,11 +221,11 @@ class WPsiteLimitPosts {
 	    /* Cast the first sub menu to the tools menu */
 
 	    $settings_page_load = add_submenu_page(
-	    	'options-general.php', 													// parent slug
-	    	__('99 Robots Limit Posts', self::$text_domain), 						// Page title
-	    	__('99 Robots Limit Posts', self::$text_domain), 						// Menu name
-	    	'manage_options', 											// Capabilities
-	    	self::$settings_page, 										// slug
+	    	'options-general.php', 											// parent slug
+	    	__('Limit Posts', self::$text_domain), 							// Page title
+	    	__('Limit Posts', self::$text_domain), 							// Menu name
+	    	'manage_options', 												// Capabilities
+	    	self::$settings_page, 											// slug
 	    	array('WPsiteLimitPosts', 'wpsite_limit_posts_admin_settings')	// Callback function
 	    );
 	    add_action("admin_print_scripts-$settings_page_load", array('WPsiteLimitPosts', 'wpsite_limit_posts_include_admin_scripts'));
@@ -238,15 +238,16 @@ class WPsiteLimitPosts {
 	 */
 	static function wpsite_limit_posts_include_admin_scripts() {
 
-		/* CSS */
+		// Styles
 
-		wp_register_style('wpsite_limit_posts_admin_css', WPSITE_LIMIT_POSTS_PLUGIN_URL . '/css/wpsite_limit_posts_admin.css');
-		wp_enqueue_style('wpsite_limit_posts_admin_css');
+		wp_enqueue_style('wpsite_limit_posts_settings_css', WPSITE_LIMIT_POSTS_PLUGIN_URL . '/css/settings.css');
+		wp_enqueue_style('wpsite_limit_posts_bootstrap_css', WPSITE_LIMIT_POSTS_PLUGIN_URL . '/css/nnr-bootstrap.min.css');
 
-		/* Javascript */
+		//wp_enqueue_style('wpsite_limit_posts_admin_css', WPSITE_LIMIT_POSTS_PLUGIN_URL . '/css/wpsite_limit_posts_admin.css');
 
-		wp_register_script('wpsite_limit_posts_admin_js', WPSITE_LIMIT_POSTS_PLUGIN_URL . '/js/wpsite_limit_posts_admin.js');
-		wp_enqueue_script('wpsite_limit_posts_admin_js');
+		// Scripts
+
+		wp_enqueue_script('wpsite_limit_posts_admin_js', WPSITE_LIMIT_POSTS_PLUGIN_URL . '/js/wpsite_limit_posts_admin.js');
 	}
 
 	/**
