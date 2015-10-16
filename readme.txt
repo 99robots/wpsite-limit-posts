@@ -1,5 +1,5 @@
-=== Limit Posts ===
-Contributors: 99robots
+=== Limit Posts by 99 Robots ===
+Contributors: 99robots, kjbenk, charliepatel
 Donate link:
 Tags: limit posts, limit number of posts, limit author posts, custom post limits, post creation limits, cpt limits, limit pages, limit user, limits, post limit, posts per user, user post limit, page limit, publish limit
 Requires at least: 4.0
@@ -12,7 +12,7 @@ Limit the number of posts or custom post types that can be published based on ro
 
 == Description ==
 
-Limit the number of posts that your authors can publish. This plugin by http://99robots.com allows you to limit the number of posts that can be published based on role (i.e, author) or user.
+Limit the number of posts that your authors can publish. This plugin by https://99robots.com allows you to limit the number of posts that can be published based on role (i.e, author) or user.
 
 It allows for the following:
 
@@ -21,9 +21,7 @@ It allows for the following:
 * Posts submitted after user has exceeded their limits will have a new post status of 'Limited'
 * Limit number of posts by post type (coming soon...)
 
-= Support =
-Have a question or comment about this plugin. Visit the plugin's page at:
-http://99robots.com
+Also please check out our other [plugins](https://99robots.com/products/?utm_source=wprepo&utm_medium=content-resharer&utm_campaign=desc) :)
 
 == Installation ==
 
@@ -57,7 +55,7 @@ Rather than force the user to delete their post, such posts will be submitted fo
 
 == Changelog ==
 
-= 2.0.0 =
+= 2.0.0 = 2015-10-15
 * ADDED: New settings page style
 
 = 1.0.4 =
