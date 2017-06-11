@@ -3,8 +3,8 @@ Contributors: 99robots, kjbenk, charliepatel
 Donate link:
 Tags: limit posts, limit number of posts, limit author posts, custom post limits, post creation limits, cpt limits, limit pages, limit user, limits, post limit, posts per user, user post limit, page limit, publish limit
 Requires at least: 4.0
-Tested up to: 4.3.1
-Stable tag: 2.0.0
+Tested up to: 4.8.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ Rather than force the user to delete their post, such posts will be submitted fo
 1. Limit Posts Settings
 
 == Changelog ==
+
+= 2.0.1 = 2017-06-11
+* Made compatible with WordPress 4.8
 
 = 2.0.0 = 2015-10-15
 * ADDED: New settings page style
