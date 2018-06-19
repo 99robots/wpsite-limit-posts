@@ -3,7 +3,7 @@
  * Plugin Name:		Limit Posts
  * Plugin URI:		http://99robots.com
  * Description:		Limit the number of posts or custom post types that can be published based on role (i.e, author) or user.
- * Version:			2.0.1
+ * Version:			2.0.2
  * Author:			99 Robots
  * Author URI:		http://99robots.com
  * License:			GPL2
@@ -29,7 +29,7 @@ class WPsite_Limit_Posts {
 	 * WPsite_Limit_Posts version.
 	 * @var string
 	 */
-	public $version = '2.0.1';
+	public $version = '2.0.2';
 
 	/**
 	 * The single instance of the class.

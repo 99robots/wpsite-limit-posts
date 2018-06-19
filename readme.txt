@@ -1,10 +1,10 @@
 === Limit Posts by 99 Robots ===
-Contributors: 99robots, kjbenk, charliepatel
+Contributors: 99robots, charliepatel
 Donate link:
 Tags: limit posts, limit number of posts, limit author posts, custom post limits, post creation limits, cpt limits, limit pages, limit user, limits, post limit, posts per user, user post limit, page limit, publish limit
 Requires at least: 4.0
-Tested up to: 4.8.0
-Stable tag: 2.0.1
+Tested up to: 4.9.6
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ Rather than force the user to delete their post, such posts will be submitted fo
 1. Limit Posts Settings
 
 == Changelog ==
+
+= 2.0.2 = 2018-06-19
+* Made compatible with WordPress 4.9.6
 
 = 2.0.1 = 2017-06-11
 * Made compatible with WordPress 4.8
