@@ -3,7 +3,7 @@
  * Plugin Name:		Limit Posts
  * Plugin URI:		http://99robots.com
  * Description:		Limit the number of posts or custom post types that can be published based on role (i.e, author) or user.
- * Version:			2.0.2
+ * Version:			2.1.0
  * Author:			99 Robots
  * Author URI:		http://99robots.com
  * License:			GPL2
@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
  *  WPsiteLimitPosts main class
  *
  * @since 1.0.0
- * @using Wordpress 3.9.1
+ * @using Wordpress 5.0.0
  */
 class WPsite_Limit_Posts {
 
@@ -29,7 +29,7 @@ class WPsite_Limit_Posts {
 	 * WPsite_Limit_Posts version.
 	 * @var string
 	 */
-	public $version = '2.0.2';
+	public $version = '2.1.0';
 
 	/**
 	 * The single instance of the class.
@@ -215,7 +215,7 @@ class WPsite_Limit_Posts {
 
 				$role_name = strtolower( $role['name'] );
 
-				if ( isset( $role['capabilities'] ) && isset( $role['capabilities']['publish_posts'] ) && ! isset( $role['capabilities']['moderate_comments'] ) ) {
+				if ( isset( $role['capabilities'] ) && isset( $role['capabilities']['publish_posts'] ) && ! isset( $role['capabilities']['update_core'] ) && !isset($role['capabilities']['install_themes']) && !isset($role['capabilities']['install_plugins']) ) {
 
 					if ( '' === stripcslashes( sanitize_text_field( $_POST[ 'wpsite_limit_posts_settings_post_num_' . $role_name ] ) ) ) {
 						$settings['all_limit'][ $role_name ] = -1;
@@ -231,7 +231,7 @@ class WPsite_Limit_Posts {
 			$all_users = get_users();
 
 			foreach ( $all_users as $user ) {
-				if ( user_can( $user->ID, 'publish_posts' ) && ! user_can( $user->ID, 'moderate_comments' ) ) {
+				if ( user_can( $user->ID, 'publish_posts' ) && ! user_can( $user->ID, 'update_core' ) && ! user_can( $user->ID, 'install_themes' ) && ! user_can( $user->ID, 'install_plugins' ) ) {
 					$users[] = $user;
 				}
 			}
@@ -307,7 +307,7 @@ class WPsite_Limit_Posts {
 		$caps = $user_data->wp_capabilities;
 		$settings = $this->get_settings();
 
-		if ( ! current_user_can( 'moderate_comments' ) && current_user_can( 'publish_posts' ) ) {
+		if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'install_themes' ) && ! current_user_can( 'install_plugins' ) && current_user_can( 'publish_posts' ) ) {
 
 			if ( isset( $settings['all'] ) && 'capability' === $settings['all'] && -1 !== (int) $settings['all_limit'][ implode( ', ', $user_data->roles ) ] ) {
 

@@ -32,13 +32,13 @@
 
 					$role_name = strtolower( $role['name'] );
 
-					if ( isset( $role['capabilities'] ) && isset( $role['capabilities']['publish_posts'] ) && ! isset( $role['capabilities']['moderate_comments'] ) ) {
+					if ( isset( $role['capabilities'] ) && isset( $role['capabilities']['publish_posts'] ) && !isset($role['capabilities']['update_core']) && !isset($role['capabilities']['install_themes']) && !isset($role['capabilities']['install_plugins'])  ) {
 					?>
 					<div class="form-group wpsite_limit_posts_roles">
 						<label class="col-sm-3 control-label"><?php echo $role['name'] ?></label>
 						<div class="col-sm-9">
 						<input id="wpsite_limit_posts_settings_post_num_<?php echo $role_name ?>" name="wpsite_limit_posts_settings_post_num_<?php echo $role_name ?>" type="text" class="form-control" value="<?php echo isset( $settings['all_limit'][ $role_name ] ) ? esc_attr( $settings['all_limit'][ $role_name ] ) : ''; ?>">
-							<em class="help-block"><?php esc_html_e( 'Default: -1 (i.e. umlimited)', 'wpsite-limit-posts' ) ?></em>
+							<em class="help-block"><?php esc_html_e( 'Default: -1 (i.e. unlimited)', 'wpsite-limit-posts' ) ?></em>
 						</div>
 					</div>
 					<?php
@@ -54,7 +54,7 @@
 				$all_users = get_users();
 
 				foreach ( $all_users as $user ) {
-					if ( user_can( $user->ID, 'publish_posts' ) && ! user_can( $user->ID, 'moderate_comments' ) ) {
+					if ( user_can( $user->ID, 'publish_posts' ) && ! user_can( $user->ID, 'update_core' ) && ! user_can( $user->ID, 'install_themes' ) && ! user_can( $user->ID, 'install_plugins' ) ) {
 						$users[] = $user;
 					}
 				}
@@ -65,7 +65,7 @@
 					<label class="col-sm-3 control-label"><?php echo $user->user_nicename ?></label>
 					<div class="col-sm-9">
 						<input id="wpsite_limit_posts_settings_user_<?php echo $user->ID ?>" name="wpsite_limit_posts_settings_user_<?php echo $user->ID ?>" type="text" class="form-control" value="<?php echo isset( $settings['user_limit'][ $user->ID ] ) ? esc_attr( $settings['user_limit'][ $user->ID ] ) : ''; ?>">
-						<em class="help-block"><?php esc_html_e( 'Default: -1 (i.e. umlimited)', 'wpsite-limit-posts' ) ?></em>
+						<em class="help-block"><?php esc_html_e( 'Default: -1 (i.e. unlimited)', 'wpsite-limit-posts' ) ?></em>
 					</div>
 				</div>
 				<?php } ?>
