@@ -1,6 +1,6 @@
 === Limit Posts by 99 Robots ===
-Contributors: 99robots, charliepatel
-Donate link:
+Contributors: 99robots, charliepatel , DraftPress
+Donate link: https://draftpress.com
 Tags: limit posts, limit number of posts, limit author posts, custom post limits, post creation limits, cpt limits, limit pages, limit user, limits, post limit, posts per user, user post limit, page limit, publish limit
 Requires at least: 4.0
 Tested up to: 5.2.3
@@ -22,6 +22,14 @@ It allows for the following:
 * Limit number of posts by post type (coming soon...)
 
 Also please check out our other [plugins](https://99robots.com/products/?utm_source=wprepo&utm_medium=content-resharer&utm_campaign=desc) :)
+
+
+> #### Plugin Information
+> * [Plugin Site](https://www.draftpress.com/limit-posts)
+> * [Plugin Documentation](https://draftpress.com/docs/limit-posts/)
+> * [Free Plugins on WordPress.org](https://profiles.wordpress.org/99robots#content-plugins)
+> * [Premium Plugins](https://www.draftpress.com/products)
+
 
 == Installation ==
 
