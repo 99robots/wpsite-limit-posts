@@ -1,4 +1,4 @@
-jQuery(document).ready(function ($) {
+jQuery(function ($) {
   
 	$("input:radio[name=wpsite_limit_posts_settings_all_users]").on("change", function () {
 			if ($(this).val() == "capability") {

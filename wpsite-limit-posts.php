@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name:        Limit Posts
- * Plugin URI:        http://99robots.com
- * Description:        Limit the number of posts or custom post types that can be published based on role (i.e, author) or user.
- * Version:            2.1.1
- * Author:            99 Robots
- * Author URI:        http://99robots.com
- * License:            GPL2
- * License URI:        http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:        wpsite-limit-posts
- * Domain Path:        /languages
+ * Plugin Name: Limit Posts
+ * Plugin URI:  https://draftpress.com/limit-posts
+ * Description: Limit the number of posts or custom post types that can be published based on role (i.e, author) or user.
+ * Version:     2.1.1
+ * Author:      DraftPress
+ * Author URI:  https://draftpress.com/
+ * License:     GPL2
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain: wpsite-limit-posts
+ * Domain Path: /languages
  */
 
 // If this file is called directly, abort.
