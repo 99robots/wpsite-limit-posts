@@ -1,10 +1,10 @@
 === Limit Posts by 99 Robots ===
-Contributors: 99robots, charliepatel
+Contributors: 99robots, charliepatel, DraftPress
 Donate link:
 Tags: limit posts, limit number of posts, limit author posts, custom post limits, post creation limits, cpt limits, limit pages, limit user, limits, post limit, posts per user, user post limit, page limit, publish limit
 Requires at least: 4.0
-Tested up to: 5.2.3
-Stable tag: 2.1.0
+Tested up to: 5.7.2
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,11 @@ Rather than force the user to delete their post, such posts will be submitted fo
 1. Limit Posts Settings
 
 == Changelog ==
+
+= 2.1.1 = 2021-05-17
+* Made compatible with WordPress 5.7.2
+* FIX - Updated Limited role, block all additional posts.
+* FIX - Changed jQuery.fn.change() event shorthand.
 
 = 2.1.0 = 2019-09-10
 * Made compatible with WordPress 5.2.3
