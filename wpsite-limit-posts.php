@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Limit Posts
- * Plugin URI:  https://draftpress.com/limit-posts
+ * Plugin URI:  https://draftpress.com/products/limit-posts
  * Description: Limit the number of posts or custom post types that can be published based on role (i.e, author) or user.
- * Version:     2.1.1
+ * Version:     2.1.2
  * Author:      DraftPress
  * Author URI:  https://draftpress.com/
  * License:     GPL2
@@ -30,7 +30,7 @@ class WPsite_Limit_Posts
      * WPsite_Limit_Posts version.
      * @var string
      */
-    public $version = '2.1.1';
+    public $version = '2.1.2';
 
     /**
      * The single instance of the class.
