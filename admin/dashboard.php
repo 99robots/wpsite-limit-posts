@@ -54,7 +54,7 @@
 				$all_users = get_users();
 
 				foreach ( $all_users as $user ) {
-					if ( user_can( $user->ID, 'publish_posts' ) && ! user_can( $user->ID, 'update_core' ) && ! user_can( $user->ID, 'install_themes' ) && ! user_can( $user->ID, 'install_plugins' ) ) {
+					if ( user_can( $user->ID, 'publish_posts' )) {
 						$users[] = $user;
 					}
 				}

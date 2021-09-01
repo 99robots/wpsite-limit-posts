@@ -58,6 +58,7 @@ Rather than force the user to delete their post, such posts will be submitted fo
 
 = 2.1.2 = 2021-07-10
 * Made compatible with WordPress 5.8
+* Fix listing of all individual users
 
 = 2.1.1 = 2021-05-17
 * Made compatible with WordPress 5.7.2
