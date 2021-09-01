@@ -37,7 +37,7 @@
 					<div class="form-group wpsite_limit_posts_roles">
 						<label class="col-sm-3 control-label"><?php echo $role['name'] ?></label>
 						<div class="col-sm-9">
-						<input id="wpsite_limit_posts_settings_post_num_<?php echo $role_name ?>" name="wpsite_limit_posts_settings_post_num_<?php echo $role_name ?>" type="text" class="form-control" value="<?php echo isset( $settings['all_limit'][ $role_name ] ) ? esc_attr( $settings['all_limit'][ $role_name ] ) : ''; ?>">
+						<input id="wpsite_limit_posts_settings_post_num_<?php echo $role_name ?>" name="wpsite_limit_posts_settings_post_num_<?php echo $role_name ?>" type="text" class="form-control" value="<?php echo isset( $settings['all_limit'][ $role_name ] ) ? esc_attr( $settings['all_limit'][ $role_name ] ) : '-1'; ?>">
 							<em class="help-block"><?php esc_html_e( 'Default: -1 (i.e. unlimited)', 'wpsite-limit-posts' ) ?></em>
 						</div>
 					</div>
@@ -64,7 +64,7 @@
 				<div class="form-group wpsite_limit_posts_users">
 					<label class="col-sm-3 control-label"><?php echo $user->user_nicename ?></label>
 					<div class="col-sm-9">
-						<input id="wpsite_limit_posts_settings_user_<?php echo $user->ID ?>" name="wpsite_limit_posts_settings_user_<?php echo $user->ID ?>" type="text" class="form-control" value="<?php echo isset( $settings['user_limit'][ $user->ID ] ) ? esc_attr( $settings['user_limit'][ $user->ID ] ) : ''; ?>">
+						<input id="wpsite_limit_posts_settings_user_<?php echo $user->ID ?>" name="wpsite_limit_posts_settings_user_<?php echo $user->ID ?>" type="text" class="form-control" value="<?php echo isset( $settings['user_limit'][ $user->ID ] ) ? esc_attr( $settings['user_limit'][ $user->ID ] ) : '-1'; ?>">
 						<em class="help-block"><?php esc_html_e( 'Default: -1 (i.e. unlimited)', 'wpsite-limit-posts' ) ?></em>
 					</div>
 				</div>
