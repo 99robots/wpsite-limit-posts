@@ -29,7 +29,7 @@
 							<div class="response" id="mce-success-response" style="display:none"></div>
 						</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
 						<div style="position: absolute; left: -5000px;"><input type="text" name="b_82c2341134bbdc37714642adb_642b18616e" tabindex="-1" value=""></div>
-						<div><input style="width:100%;" type="submit" value="Subscribe" name="subscribe" class="btn btn-default"></div>
+						<div><input style="width:100%;" type="submit" value="<?php esc_attr_e( 'Subscribe', 'wpsite-limit-posts' ); ?>" name="subscribe" class="btn btn-default"></div>
 					</div>
 				</form>
 			</div>
