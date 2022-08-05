@@ -56,7 +56,7 @@ Rather than force the user to delete their post, such posts will be submitted fo
 == Changelog ==
 
 = 2.1.3 = 2022-08-06
-* UPDATED: Compatibility with WordPress 6.1
+* UPDATED: Compatibility with WordPress 6.0.1
 
 = 2.1.2 = 2021-09-14
 * Made compatible with WordPress 5.8.1
