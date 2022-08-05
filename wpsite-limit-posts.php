@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Plugin Name: Limit Posts
  * Plugin URI:  https://draftpress.com/products
  * Description: Limit the number of posts or custom post types that can be published based on role (i.e, author) or user.
- * Version:     2.1.2
+ * Version:     2.1.3
  * Author:      DraftPress
  * Author URI:  https://draftpress.com/
  * License:     GPL2
@@ -21,7 +22,7 @@ if (!defined('WPINC')) {
  *  WPsiteLimitPosts main class
  *
  * @since 1.0.0
- * @using Wordpress 5.7.2
+ * @using Wordpress 6.0.1
  */
 class WPsite_Limit_Posts
 {
@@ -30,7 +31,7 @@ class WPsite_Limit_Posts
      * WPsite_Limit_Posts version.
      * @var string
      */
-    public $version = '2.1.2';
+    public $version = '2.1.3';
 
     /**
      * The single instance of the class.
@@ -105,7 +106,6 @@ class WPsite_Limit_Posts
      */
     private function __construct()
     {
-
     }
 
     /**
@@ -366,25 +366,25 @@ class WPsite_Limit_Posts
                 $options .= "<option{$selected} value='{$status->name}'>{$status->label}</option>";
             }
         }
-        ?>
-		<script type="text/javascript">
-			jQuery( document ).ready( function( $ ) {
-				<?php
-// Add the selected post status label to the "Status: [Name] (Edit)"
-        if (!empty($display)):
-        ?>
-					$( '#post-status-display' ).html( '<?php echo $display; ?>' )
-				<?php
-endif;
+?>
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                <?php
+                // Add the selected post status label to the "Status: [Name] (Edit)"
+                if (!empty($display)) :
+                ?>
+                    $('#post-status-display').html('<?php echo $display; ?>')
+                <?php
+                endif;
 
-        // Add the options to the <select> element
-        ?>
-				var select = $( '#post-status-select' ).find( 'select' );
-				$( select ).append( "<?php echo $options; ?>" );
-			} );
-		</script>
-		<?php
-}
+                // Add the options to the <select> element
+                ?>
+                var select = $('#post-status-select').find('select');
+                $(select).append("<?php echo $options; ?>");
+            });
+        </script>
+<?php
+    }
 
     // Helpers -----------------------------------------------------------
 
