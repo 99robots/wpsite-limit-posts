@@ -22,7 +22,7 @@ if (!defined('WPINC')) {
  *  WPsiteLimitPosts main class
  *
  * @since 1.0.0
- * @using Wordpress 5.9.3
+ * @using Wordpress 6.0.1
  */
 class WPsite_Limit_Posts
 {
