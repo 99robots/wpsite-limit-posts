@@ -3,8 +3,8 @@ Contributors: 99robots, charliepatel, DraftPress
 Donate link:
 Tags: limit posts, limit number of posts, limit author posts, custom post limits, post creation limits, cpt limits, limit pages, limit user, limits, post limit, posts per user, user post limit, page limit, publish limit
 Requires at least: 4.9
-Tested up to: 5.8.1
-Stable tag: 2.1.2
+Tested up to: 6.0.1
+Stable tag: 2.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,8 @@ Rather than force the user to delete their post, such posts will be submitted fo
 
 == Changelog ==
 
+= 2.1.3 = 2022-08-06
+* UPDATED: Compatibility with WordPress 6.0.1
 
 = 2.1.2 = 2021-09-14
 * Made compatible with WordPress 5.8.1
